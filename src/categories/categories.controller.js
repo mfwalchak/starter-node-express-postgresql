@@ -1,13 +1,11 @@
-async function list(req, res, next) {
-  res.json({
-    data: [
-      { category_name: "category 1" },
-      { category_name: "category 2" },
-      { category_name: "category 3" },
-    ],
-  });
+const categoriesService = require("./categories.service.js");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+
+async function list (req, res, next) {
+  const data = await categoriesService.list()
+    res.json({ data });
 }
 
 module.exports = {
-  list: [list],
-};
+  list: asyncErrorBoundary(list),
+}
